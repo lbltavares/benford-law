@@ -19,17 +19,17 @@ function save() {
 }
 
 function mostrarResultados() {
-    console.log('#' + data.paginas);
-    console.log(data.lastTitle);
+    console.log('\n#' + data.paginas);
     let total = 0;
     for (let i = 0; i <= 9; i++) {
         if (data[i])
             total += data[i];
     }
+    console.log(`Digito\tOcorr.\t%`);
     for (let i = 0; i <= 9; i++) {
         if (data[i]) {
             const perc = ((data[i] / total) * 100);
-            console.log(`${i}: ${data[i]} (${perc.toFixed(2)}%)`);
+            console.log(`${i}: \t${data[i]} \t${perc.toFixed(2)}%`);
         }
     }
     console.log('Total: ' + total);
@@ -46,8 +46,7 @@ async function farm() {
         let pages = payload.query.pages;
         let page = pages[Object.keys(pages)[0]]
         let content = page.extract;
-        currtitle = page.title;
-        //visitas.push(currtitle);
+        let currtitle = page.title;
 
         let parts = content.split(' ');
         for (let i = 0; i < parts.length; i++) {
@@ -58,7 +57,7 @@ async function farm() {
             p = p.toLowerCase();
             p = p.trim();
 
-            
+
 
             if (!p) continue;
             if (!isNaN(p)) {
@@ -70,11 +69,14 @@ async function farm() {
                 }
 
                 console.clear();
-                console.log(frase + '\n');
+                console.log(`Titulo: ${currtitle}\n`);
+                console.log(`Frase: ${frase}\n`);
+                if (p[0] === '0')
+                    p *= 1;
+                let firstDigit = p[0];
                 console.log('Numero: ' + p);
 
                 data.total += 1;
-                let firstDigit = p[0];
                 if (data[firstDigit])
                     data[firstDigit]++;
                 else
