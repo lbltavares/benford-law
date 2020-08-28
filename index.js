@@ -73,6 +73,7 @@ async function farm() {
                 console.log(`Frase: ${frase}\n`);
                 if (p[0] === '0')
                     p *= 1;
+                if (!p) continue;
                 let firstDigit = p[0];
                 console.log('Numero: ' + p);
 
