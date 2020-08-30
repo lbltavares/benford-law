@@ -1,44 +1,5 @@
-const axios = require('axios').default;
-const fs = require('fs');
-
-const DATAFILE = 'data.json';
-const URL_REDDIT = 'http://www.reddit.com/r/random.json';
-
-function load(file = DATAFILE) {
-    if (fs.existsSync(file))
-        return JSON.parse(fs.readFileSync(file, { encoding: 'utf-8' }));
-    return {
-        pages: 0,
-        total: 0,
-    };
-}
-let result = load();
-
-function save(file = DATAFILE, data = result) {
-    fs.writeFileSync(file, JSON.stringify(data), { encoding: 'utf-8' });
-}
-
-async function reddit() {
-    let batch = [];
-    try {
-        const payload = (await axios.get(URL_REDDIT)).data;
-        const posts = payload.data.children;
-        result.pages++;
-        for (let { data } of posts) {
-            // console.log(data.title);
-            // batch.push(data.title);
-
-            // console.log(data.selftext);
-            // batch.push(data.selftext);
-
-            // console.log(data.num_comments);
-            batch.push(data.num_comments);
-        }
-    } catch (ex) {
-        console.error(ex);
-    }
-    return batch;
-}
+const farmers = require('./farmers');
+const { result, update, incrementPages } = require('./persist');
 
 function extractNumbers(textArr) {
     let batch = [];
@@ -53,17 +14,7 @@ function extractNumbers(textArr) {
     return batch;
 }
 
-function display(numbers) {
-    if (!numbers || !numbers.length) return;
-    for (let n of numbers) {
-        if (!n) continue;
-        let first = n.toString()[0];
-        if (!result[first]) result[first] = 1;
-        else result[first]++;
-        result.total++;
-    }
-    if (!result.total) return;
-    save();
+function display() {
     let pad = 10;
     console.clear();
     console.log(`Pages: ${result.pages}`);
@@ -88,8 +39,13 @@ function display(numbers) {
     return;
 }
 
+
+
 (async function main() {
     while (true) {
-        display(extractNumbers([...await reddit()]));
+        display(update(extractNumbers([
+            ...await farmers.reddit(incrementPages),
+
+        ])));
     }
 })();
