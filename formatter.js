@@ -14,7 +14,7 @@ exports.extractNumbers = function (textArr) {
             txt = txt.toString();
             let nums = txt
                 .replace(/(\r\n|\n|\r)/gm, '') // Remove quebra de linhas
-                .match(/\d+\.?\,?(\d+)?/g).map(Number); // Filtra apenas os numeros
+                .match(/\d+\.?(\d+)?/g).map(Number); // Filtra apenas os numeros
             if (nums && nums.length) numbers.push(...nums);
         } catch (ex) {
             // console.error(ex);
