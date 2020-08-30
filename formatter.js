@@ -7,18 +7,23 @@
  */
 
 exports.extractNumbers = function (textArr) {
-    let batch = [];
+    let numbers = [];
     for (let txt of textArr) {
-        if (!txt) continue;
-        txt = 1 * txt;
-        txt = txt.toString();
-        let num = txt
-            .replace(/(\r\n|\n|\r)/gm, '');
-        if (txt) batch.push(num);
+        try {
+            if (!txt) continue;
+            txt = txt.toString();
+            let nums = txt
+                .replace(/(\r\n|\n|\r)/gm, '') // Remove quebra de linhas
+                .match(/\d+\.?\,?(\d+)?/g).map(Number); // Filtra apenas os numeros
+            if (nums && nums.length) numbers.push(...nums);
+        } catch (ex) {
+            // console.error(ex);
+        }
     }
-    return batch;
+    return numbers;
 };
 
 exports.process = function (textArr) {
+    textArr.filter(str => str); // Remove entradas em branco
     return exports.extractNumbers(textArr);
 };
