@@ -1,18 +1,6 @@
 const farmers = require('./farmers');
+const { process } = require('./formatter');
 const { result, update, incrementPages } = require('./persist');
-
-function extractNumbers(textArr) {
-    let batch = [];
-    for (let txt of textArr) {
-        if (!txt) continue;
-        txt = 1 * txt;
-        txt = txt.toString();
-        let num = txt
-            .replace(/(\r\n|\n|\r)/gm, '');
-        if (txt) batch.push(num);
-    }
-    return batch;
-}
 
 function display() {
     let pad = 10;
@@ -39,12 +27,11 @@ function display() {
     return;
 }
 
-
-
 (async function main() {
-    while (true) {
-        display(update(extractNumbers([
-            ...await farmers.reddit(incrementPages),
+    let running = true;
+    while (running) {
+        display(update(process([
+            ...await farmers.redditRandomPost(incrementPages),
 
         ])));
     }
