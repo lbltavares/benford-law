@@ -64,15 +64,25 @@ function display(numbers) {
     }
     if (!result.total) return;
     save();
+    let pad = 10;
     console.clear();
     console.log(`Pages: ${result.pages}`);
-    console.log(`Digit \tOccur.\t%`);
+    console.log('%s\t%s\t%s',
+        'Digit'.padStart(pad),
+        'Occur'.padStart(pad),
+        '%'.padStart(pad)
+    );
     for (let i = 1; i <= 9; i++) {
         if (!result[i]) continue;
         let digit = i;
         let occ = result[i];
         let perc = (occ / result.total) * 100;
-        console.log(`${digit}\t${occ}\t${perc.toFixed(2)}`);
+        console.log('%s\t%s\t%s',
+            digit.toString().padStart(pad),
+            occ.toString().padStart(pad),
+            perc.toFixed(2).toString().padStart(pad)
+        );
+        // console.log(`${digit}\t${occ}\t${perc.toFixed(2)}`);
     }
     console.log(`Total: \t${result.total}`);
     return;
