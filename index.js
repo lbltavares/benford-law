@@ -21,7 +21,6 @@ function display() {
             occ.toString().padStart(pad),
             perc.toFixed(2).toString().padStart(pad)
         );
-        // console.log(`${digit}\t${occ}\t${perc.toFixed(2)}`);
     }
     console.log(`Total: \t${result.total}`);
     return;
