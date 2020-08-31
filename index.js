@@ -23,6 +23,7 @@ function display() {
         );
     }
     console.log(`Total: \t${result.total}`);
+    return;
 }
 
 (async function main() {
