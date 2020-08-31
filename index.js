@@ -23,6 +23,7 @@ function display() {
         );
     }
     console.log(`Total: \t${result.total}`);
+    console.log("teste");
     return;
 }
 
