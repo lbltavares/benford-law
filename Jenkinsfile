@@ -6,6 +6,7 @@ pipeline {
     stages {
         stage('Info') {
             steps {
+                sh 'INFO'
                 sh 'ls -la'
                 sh 'pwd'
                 sh 'echo $USER'
