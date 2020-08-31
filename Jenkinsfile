@@ -1,8 +1,10 @@
 pipeline {
     agent {
-        docker { image 'node:14-alpine' }
-        environment {
-            HOME = '.'
+        docker { 
+            image 'node:14-alpine' 
+            environment {
+                HOME = '.'
+            } 
         }
     }
     stages {
