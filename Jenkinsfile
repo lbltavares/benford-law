@@ -5,15 +5,7 @@ pipeline {
     environment {
         HOME = '.'
     } 
-    stages {
-        stage('Info') {
-            steps {
-                sh 'echo INFO'
-                sh 'ls -la'
-                sh 'pwd'
-                sh 'echo $USER'
-            }
-        }    
+    stages { 
         stage('Build') {
             steps {
                 sh 'npm install'
